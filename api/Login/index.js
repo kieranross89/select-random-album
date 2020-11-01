@@ -1,9 +1,14 @@
+var uuid = require('uuid');
+
 module.exports = function (context) {
+    
+    var state = uuid.v4()
     
     const data = {
         client_id: process.env["SpotifyClientId"],
         response_type: 'code',
-        redirect_uri: process.env['SpotifyRedirectUri']
+        redirect_uri: process.env['SpotifyRedirectUri'],
+        state: state
       };
       
     const params = new URLSearchParams(data);
@@ -11,9 +16,16 @@ module.exports = function (context) {
     res = {
         status: 302,
         headers: {
-            'Location': 'https://accounts.spotify.com/authorize?'.concat(params.toString())
+            'Location': 'https://accounts.spotify.com/authorize?'.concat(params.toString()),
+            'Headers': Set
         },
-        body: 'Redirecting...'
+        body: 'Redirecting...',
+        cookies: [
+            {
+                name: "spotify_auth_state",
+                value: state
+            }
+        ]
     };
     context.done(null, res);
 };

@@ -10,12 +10,20 @@
 
 <body>
   <main>
-    <h1>Vanilla JavaScript App</h1>
-    <div id="login">
-      <h1>This is an example of the Authorization Code flow</h1>
-      <a id="login" href="/api/login">Login to Spotify</a>
-    </div>
+    <h1 id="title">Get Random Album</h1>
   </main>
+
+  <template id="login-template">
+    <div id="spotifylogin">
+      <p>First log into your Spotify account.</p>
+      <button onclick="login();">Login to Spotify</button>
+    </div>
+  </template>
+
+  <template id="get-album-template">
+    <p>Get a random album from your Spotify library.</p>
+    <button onclick="getAlbum();"></button>
+  </template>
 
   <script>
     function getHashParams() {
@@ -28,9 +36,28 @@
       return hashParams;
     }
 
+    function login(){
+        window.location='api/login';
+    }
+
+    // function getAlbum() {
+
+    // }
+
+    function getConditionalContent(token){
+      if(token == null){
+        return document.getElementById('login-template')
+      }
+      
+      return document.getElementById('get-album-template')
+    }
+
     const params = getHashParams()
-    console.log(params)
-    let accessToken = params.access_token
+    const main = document.querySelector('main')
+    const conditionalContent = getConditionalContent(params.access_token)
+    const fetchingNode = document.importNode(conditionalContent.content, true);
+    main.append(fetchingNode)
+
   </script>
 </body>
 

@@ -31,6 +31,14 @@ jobs:
           api_location: "api" # Api source code path - optional
           app_artifact_location: "" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
+      - name: Create Storage Account
+        uses: azure/CLI@v1
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az account show
+            az storage account create -n selectrandomalbumstorage -g select-random-album -l westeurope --sku Standard_LRS
+            az storage account keys list-g select-random-album -n selectrandomalbumstorage
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'

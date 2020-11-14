@@ -1,8 +1,10 @@
 var fetch = require('node-fetch');
+var uuid = require('uuid');
+var { BlobServiceClient } = require('@azure/storage-blob');
 
 module.exports = async function (context, req) {
 
-    const code = req.query.code || null
+    var code = req.query.code || null
     var state = req.query.state || null
     var cookies = req.headers.cookie ? parseCookie(req.headers.cookie) : null
     var storedState = cookies.spotify_auth_state ? cookies.spotify_auth_state: null
@@ -11,47 +13,58 @@ module.exports = async function (context, req) {
         res = {
             status: 302,
             headers: {
-                'Location': '/#'.concat(new URLSearchParams({error: 'state_mismatch'}))
+                'Location': '/#'.concat(new URLSearchParams({authstatus: 'state_mismatch'}))
             }
         }
         context.done(null, res);
       }
-
 
     const data = {
         client_id: process.env["SpotifyClientId"],
         client_secret: process.env['SpotifyClientSecret'],
         redirect_uri: process.env['SpotifyRedirectUri'],
         grant_type: 'authorization_code',
-        scope: 'user-library-read',
         code: code
         };
 
-    const json = await getHttp(new URLSearchParams(data));
-    const urlFragment = new URLSearchParams(
-        {
-            access_token: json.access_token,
-            refresh_token: json.refresh_token
-        }
-    );
+    const json = await getToken(new URLSearchParams(data));
+    
+    // TODO: wrap in async function
+    const containerClient = BlobServiceClient.fromConnectionString(process.env["SecurityStorage"]).getContainerClient(process.env["ContainerName"])
+    await containerClient.createIfNotExists()
+
+    const randomUid = uuid.v4()
+    const blobName = randomUid.concat('.json')
+    const fileContents = JSON.stringify(json)
+    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+    await blockBlobClient.upload(fileContents, fileContents.length);
 
     res = {
         status: 302,
         headers: {
-            //TODO param location url
-            'Location': 'http://127.0.0.1:5500/#'.concat(urlFragment.toString())
+            'Location': '/#'.concat(new URLSearchParams({authstatus: 'success'}))
         },
-        body: null
+        body: null,
+        cookies: [
+            {
+                name: "spotify_auth",
+                value: randomUid,
+                httpOnly: true,
+                // secure: true,
+                path: '/api'
+            }
+        ]
     };
 
     context.done(null, res);
 }
 
-async function getHttp(params) {       
+async function getToken(params) {       
     return fetch('https://accounts.spotify.com/api/token', {method: 'POST', body: params})
     .then(res => res.json());
 }
 
+// TODO: place in shared utils .js
 function parseCookie (str) {
    return str
     .split(';')

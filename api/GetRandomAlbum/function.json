@@ -6,9 +6,9 @@
       "direction": "in",
       "name": "req",
       "methods": [
-        "get"
-      ],
-      "route": "message"
+        "get",
+        "post"
+      ]
     },
     {
       "type": "http",

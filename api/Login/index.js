@@ -8,7 +8,8 @@ module.exports = function (context) {
         client_id: process.env["SpotifyClientId"],
         response_type: 'code',
         redirect_uri: process.env['SpotifyRedirectUri'],
-        state: state
+        state: state,
+        scope: 'user-library-read'
       };
       
     const params = new URLSearchParams(data);
@@ -23,7 +24,9 @@ module.exports = function (context) {
         cookies: [
             {
                 name: "spotify_auth_state",
-                value: state
+                value: state,
+                httpOnly: true,
+                path: '/api'
             }
         ]
     };

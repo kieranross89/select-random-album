@@ -41,7 +41,7 @@ jobs:
           inlineScript: |
             az account show
             az storage account create -n selectrandomalbumstorage -g select-random-album -l westeurope --sku Standard_LRS
-            az storage account keys list-g select-random-album -n selectrandomalbumstorage
+            az storage account keys list -g select-random-album -n selectrandomalbumstorage
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'

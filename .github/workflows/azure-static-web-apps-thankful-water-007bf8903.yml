@@ -41,8 +41,7 @@ jobs:
           inlineScript: |
             az account show
             az storage account create -n selectrandomalbumstorage -g select-random-album -l westeurope --sku Standard_LRS
-            test=`az storage account show-connection-string -g select-random-album -n selectrandomalbumstorage`
-            echo '${test}'
+            echo ::set-env name=test::$(az storage account show-connection-string -g select-random-album -n selectrandomalbumstorage)
       env:
         APPSETTINGS_PLACEHOLDER: '{
           "IsEncrypted": false,

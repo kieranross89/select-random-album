@@ -34,7 +34,7 @@ jobs:
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Create Storage Account
+      - name: Create Storage Account and Set Config
         uses: azure/CLI@v1
         with:
           azcliversion: latest
@@ -42,9 +42,12 @@ jobs:
             az account show
             az storage account create -n selectrandomalbumstorage -g select-random-album -l westeurope --sku Standard_LRS
             storageConnectionString=`az storage account show-connection-string -g select-random-album -n selectrandomalbumstorage --query 'connectionString' -o tsv`
-            test=`jq -n --arg spotifyClientId ${{ secrets.SPOTIFY_CLIENTID }} --arg spotifyClientSecret ${{ secrets.SPOTIFY_CLIENTSECRET }} --arg storage ${storageConnectionString} \
-            '{"SpotifyClientId": $spotifyClientId, "SpotifyClientSecret": $spotifyClientSecret, "SecurityStorage": $storage, "ContainerName": "token"}'`
-            echo ${test}
+            hostname='az rest --method get --headers "Content-Type=application/json" --uri "/subscriptions/dfd6bca7-2e41-4b5b-ae2b-37f76385ec83/resourceGroups/select-random-album/providers/Microsoft.Web/staticSites/select-random-album?api-version=2019-12-01-preview" --query 'properties.defaultHostname' -o tsv'
+            jq -n --arg spotifyClientId ${{ secrets.SPOTIFY_CLIENTID }} --arg spotifyClientSecret ${{ secrets.SPOTIFY_CLIENTSECRET }} --arg storage ${storageConnectionString} --arg hostname ${hostname} \
+            '{"SpotifyClientId": $spotifyClientId, "SpotifyClientSecret": $spotifyClientSecret, "SecurityStorage": $storage, "ContainerName": "token", "SpotifyRedirectUri": "https://"${hostname}}' > appsettings.json
+            cat appsettings.json
+
+            
 
 
 

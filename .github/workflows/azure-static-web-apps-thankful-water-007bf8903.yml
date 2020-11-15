@@ -45,9 +45,9 @@ jobs:
             hostname=`az rest --method get --headers "Content-Type=application/json" --uri "/subscriptions/dfd6bca7-2e41-4b5b-ae2b-37f76385ec83/resourceGroups/select-random-album/providers/Microsoft.Web/staticSites/select-random-album?api-version=2019-12-01-preview" --query 'properties.defaultHostname' -o tsv`
             redirectUrl="https://${hostname}/api/callback"
             jq -n --arg spotifyClientId ${{ secrets.SPOTIFY_CLIENTID }} --arg spotifyClientSecret ${{ secrets.SPOTIFY_CLIENTSECRET }} --arg storage ${storageConnectionString} --arg redirectUrl ${redirectUrl} \
-              '{"SpotifyClientId": $spotifyClientId, "SpotifyClientSecret": $spotifyClientSecret, "SecurityStorage": $storage, "ContainerName": "token", "SpotifyRedirectUri": $redirectUrl }' > appsettings.json
+              '{"properties": { "SpotifyClientId": $spotifyClientId, "SpotifyClientSecret": $spotifyClientSecret, "SecurityStorage": $storage, "ContainerName": "token", "SpotifyRedirectUri": $redirectUrl }}' > appsettings.json
             cat appsettings.json
-            az rest --method put --headers "Content-Type=application/json" --uri "/subscriptions/dfd6bca7-2e41-4b5b-ae2b-37f76385ec83/resourceGroups/select-random-album/providers/Microsoft.Web/staticSites/select-random-album/config/functionappsettings?api-version=2019-12-01-preview" --body '@appsettings.json'
+            # az rest --method put --headers "Content-Type=application/json" --uri "/subscriptions/dfd6bca7-2e41-4b5b-ae2b-37f76385ec83/resourceGroups/select-random-album/providers/Microsoft.Web/staticSites/select-random-album/config/functionappsettings?api-version=2019-12-01-preview" --body @appsettings.json
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'

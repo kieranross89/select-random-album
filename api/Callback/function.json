@@ -14,13 +14,6 @@
       "type": "http",
       "direction": "out",
       "name": "$return"
-    },
-    {
-      "name": "outputblob",
-      "type": "blob",
-      "path": "token/{outblobname}.json",
-      "connection": "SecurityStorage",
-      "direction": "out"
     }
   ]
 }

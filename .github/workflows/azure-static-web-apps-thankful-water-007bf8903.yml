@@ -42,9 +42,9 @@ jobs:
             az account show
             az storage account create -n selectrandomalbumstorage -g select-random-album -l westeurope --sku Standard_LRS
             storageConnectionString=`az storage account show-connection-string -g select-random-album -n selectrandomalbumstorage --query 'connectionString' -o tsv`
-            jq -n --arg spotifyClientId ${{ secrets.SPOTIFY_CLIENTID }} --arg spotifyClientSecret ${{ secrets.SPOTIFY_CLIENTSECRET }} --arg storage ${storageConnectionString} \
-            '{"SpotifyClientId": $spotifyClientId, "SpotifyClientSecret": $spotifyClientSecret, "SecurityStorage": $storage, "ContainerName": "token"}' > appsettings.json
-            cat appsettings.json
+            test=`jq -n --arg spotifyClientId ${{ secrets.SPOTIFY_CLIENTID }} --arg spotifyClientSecret ${{ secrets.SPOTIFY_CLIENTSECRET }} --arg storage ${storageConnectionString} \
+            '{"SpotifyClientId": $spotifyClientId, "SpotifyClientSecret": $spotifyClientSecret, "SecurityStorage": $storage, "ContainerName": "token"}'`
+            echo ${test}
 
 
 

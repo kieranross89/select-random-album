@@ -41,19 +41,6 @@ jobs:
           inlineScript: |
             az account show
             az storage account create -n selectrandomalbumstorage -g select-random-album -l westeurope --sku Standard_LRS
-            az storage account show-connection-string -g select-random-album -n selectrandomalbumstorage
-      env:
-        APPSETTINGS_PLACEHOLDER: '{
-          "IsEncrypted": false,
-          "Values": {
-            "FUNCTIONS_WORKER_RUNTIME": "node",
-            "SpotifyClientId": "2549fd8760904a4cbbb166c62c655713",
-            "SpotifyClientSecret": "69fd9a4e1f9041a4be5bd2b044265d90", 
-            "SpotifyRedirectUri": "http://127.0.0.1:5500/api/callback",
-            "SecurityStorage": "UseDevelopmentStorage=true;",
-            "ContainerName": "stuff"
-          }
-        }'
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'

@@ -18,7 +18,7 @@
     {
       "name": "outputblob",
       "type": "blob",
-      "path": "security/{outblobname}.json",
+      "path": "token/{outblobname}.json",
       "connection": "SecurityStorage",
       "direction": "out"
     }

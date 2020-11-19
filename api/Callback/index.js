@@ -1,5 +1,6 @@
 var fetch = require('node-fetch');
 var uuid = require('uuid');
+var { BlobServiceClient } = require('@azure/storage-blob');
 
 module.exports = async function (context, req) {
     context.log("callback invoked")
@@ -13,7 +14,7 @@ module.exports = async function (context, req) {
         res = {
             status: 302,
             headers: {
-                'Location': '/#'.concat(new URLSearchParams({ authstatus: 'state_mismatch' }))
+                'Location': '/app/#'.concat(new URLSearchParams({ authstatus: 'state_mismatch' }))
             }
         }
         context.log(res)
@@ -43,7 +44,7 @@ module.exports = async function (context, req) {
     res = {
         status: 302,
         headers: {
-            'Location': '/#'.concat(new URLSearchParams({ authstatus: 'success' }))
+            'Location': '/app/#'.concat(new URLSearchParams({ authstatus: 'success' }))
         },
         body: null,
         cookies: [
@@ -52,7 +53,7 @@ module.exports = async function (context, req) {
                 value: randomUid,
                 httpOnly: true,
                 // secure: true,
-                path: '/api'
+                path: 'app/api'
             }
         ]
     };

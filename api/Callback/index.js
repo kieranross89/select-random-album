@@ -1,6 +1,5 @@
 var fetch = require('node-fetch');
 var uuid = require('uuid');
-var { BlobServiceClient } = require('@azure/storage-blob');
 
 module.exports = async function (context, req) {
 

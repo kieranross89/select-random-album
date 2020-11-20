@@ -7,6 +7,7 @@ module.exports = async function (context, req) {
     var code = req.query.code || null
     var state = req.query.state || null
     var cookies = req.headers.cookie ? parseCookie(req.headers.cookie) : null
+    context.log(cookies)
     var storedState = cookies.spotify_auth_state ? cookies.spotify_auth_state : null
 
     if (state === null || state !== storedState) {

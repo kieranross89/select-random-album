@@ -3,11 +3,9 @@ var uuid = require('uuid');
 var { BlobServiceClient } = require('@azure/storage-blob');
 
 module.exports = async function (context, req) {
-    context.log("callback invoked")
     var code = req.query.code || null
     var state = req.query.state || null
     var cookies = req.headers.cookie ? parseCookie(req.headers.cookie) : null
-    context.log(cookies)
     var storedState = cookies.spotify_auth_state ? cookies.spotify_auth_state : null
 
     if (state === null || state !== storedState) {
@@ -15,10 +13,9 @@ module.exports = async function (context, req) {
         res = {
             status: 302,
             headers: {
-                'Location': '/app/#'.concat(new URLSearchParams({ authstatus: 'state_mismatch' }))
+                'Location': '/#'.concat(new URLSearchParams({ authstatus: 'state_mismatch' }))
             }
         }
-        context.log(res)
         context.done(null, res);
     }
 
@@ -45,7 +42,7 @@ module.exports = async function (context, req) {
     res = {
         status: 302,
         headers: {
-            'Location': '/app/#'.concat(new URLSearchParams({ authstatus: 'success' }))
+            'Location': '/#'.concat(new URLSearchParams({ authstatus: 'success' }))
         },
         body: null,
         cookies: [
@@ -54,7 +51,7 @@ module.exports = async function (context, req) {
                 value: randomUid,
                 httpOnly: true,
                 // secure: true,
-                path: 'app/api'
+                path: '/api'
             }
         ]
     };

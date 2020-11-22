@@ -13,7 +13,7 @@ module.exports = async function (context, req) {
         res = {
             status: 302,
             headers: {
-                'Location': '/#'.concat(new URLSearchParams({ authstatus: 'state_mismatch' }))
+                'Location': '../#'.concat(new URLSearchParams({ authstatus: 'state_mismatch' }))
             }
         }
         context.done(null, res);
@@ -42,7 +42,7 @@ module.exports = async function (context, req) {
     res = {
         status: 302,
         headers: {
-            'Location': '/#'.concat(new URLSearchParams({ authstatus: 'success' }))
+            'Location': '../#'.concat(new URLSearchParams({ authstatus: 'success' }))
         },
         body: null,
         cookies: [

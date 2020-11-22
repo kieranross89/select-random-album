@@ -19,42 +19,42 @@ module.exports = async function (context, req) {
         context.done(null, res);
     }
 
-    const data = {
-        client_id: process.env["SpotifyClientId"],
-        client_secret: process.env['SpotifyClientSecret'],
-        redirect_uri: process.env['SpotifyRedirectUri'],
-        grant_type: 'authorization_code',
-        code: code
-    };
+    // const data = {
+    //     client_id: process.env["SpotifyClientId"],
+    //     client_secret: process.env['SpotifyClientSecret'],
+    //     redirect_uri: process.env['SpotifyRedirectUri'],
+    //     grant_type: 'authorization_code',
+    //     code: code
+    // };
 
-    const json = await getToken(new URLSearchParams(data));
+    // const json = await getToken(new URLSearchParams(data));
 
-    // TODO: wrap in async function
-    const containerClient = BlobServiceClient.fromConnectionString(process.env["SecurityStorage"]).getContainerClient(process.env["ContainerName"])
-    await containerClient.createIfNotExists()
+    // // TODO: wrap in async function
+    // const containerClient = BlobServiceClient.fromConnectionString(process.env["SecurityStorage"]).getContainerClient(process.env["ContainerName"])
+    // await containerClient.createIfNotExists()
 
-    const randomUid = uuid.v4()
-    const blobName = randomUid.concat('.json')
-    const fileContents = JSON.stringify(json)
-    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-    await blockBlobClient.upload(fileContents, fileContents.length);
+    // const randomUid = uuid.v4()
+    // const blobName = randomUid.concat('.json')
+    // const fileContents = JSON.stringify(json)
+    // const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+    // await blockBlobClient.upload(fileContents, fileContents.length);
 
-    res = {
-        status: 302,
-        headers: {
-            'Location': '/#'.concat(new URLSearchParams({ authstatus: 'success' }))
-        },
-        body: null,
-        cookies: [
-            {
-                name: "spotify_auth",
-                value: randomUid,
-                httpOnly: true,
-                // secure: true,
-                path: '/api'
-            }
-        ]
-    };
+    // res = {
+    //     status: 302,
+    //     headers: {
+    //         'Location': '/#'.concat(new URLSearchParams({ authstatus: 'success' }))
+    //     },
+    //     body: null,
+    //     cookies: [
+    //         {
+    //             name: "spotify_auth",
+    //             value: randomUid,
+    //             httpOnly: true,
+    //             // secure: true,
+    //             path: '/api'
+    //         }
+    //     ]
+    // };
 
     context.done(null, res);
 }

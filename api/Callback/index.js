@@ -3,6 +3,7 @@ var uuid = require('uuid');
 var { BlobServiceClient } = require('@azure/storage-blob');
 
 module.exports = async function (context, req) {
+    context.log(JSON.stringify(req))
     var code = req.query.code || null
     var state = req.query.state || null
     var cookies = req.headers.cookie ? parseCookie(req.headers.cookie) : null
@@ -13,7 +14,7 @@ module.exports = async function (context, req) {
         res = {
             status: 302,
             headers: {
-                'Location': '../#'.concat(new URLSearchParams({ authstatus: 'state_mismatch' }))
+                'Location': '/#'.concat(new URLSearchParams({ authstatus: 'state_mismatch' }))
             }
         }
         context.done(null, res);
@@ -42,7 +43,7 @@ module.exports = async function (context, req) {
     res = {
         status: 302,
         headers: {
-            'Location': '../#'.concat(new URLSearchParams({ authstatus: 'success' }))
+            'Location': process.env["CallbackRedirect"].concat(new URLSearchParams({ authstatus: 'success' }))
         },
         body: null,
         cookies: [

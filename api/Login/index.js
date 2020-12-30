@@ -17,7 +17,7 @@ module.exports = function (context) {
     res = {
         status: 302,
         headers: {
-            'Location': 'https://accounts.spotify.com/authorize?'.concat(params.toString()),
+            'Location': 'https://accounts.spotify.com/authorize?'.concat(params),
             'Headers': Set
         },
         body: 'Redirecting...',

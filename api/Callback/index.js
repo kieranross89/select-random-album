@@ -1,9 +1,8 @@
 var fetch = require('node-fetch');
 var uuid = require('uuid');
-var { BlobServiceClient } = require('@azure/storage-blob');
+// var { BlobServiceClient } = require('@azure/storage-blob');
 
 module.exports = async function (context, req) {
-    context.log(JSON.stringify(req))
 //     var code = req.query.code || null
 //     var state = req.query.state || null
 //     var cookies = req.headers.cookie ? parseCookie(req.headers.cookie) : null
@@ -34,30 +33,30 @@ module.exports = async function (context, req) {
 //     const containerClient = BlobServiceClient.fromConnectionString(process.env["SecurityStorage"]).getContainerClient(process.env["ContainerName"])
 //     await containerClient.createIfNotExists()
 
-//     const randomUid = uuid.v4()
+    const randomUid = uuid.v4()
 //     const blobName = randomUid.concat('.json')
 //     const fileContents = JSON.stringify(json)
 //     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 //     await blockBlobClient.upload(fileContents, fileContents.length);
 
-//     res = {
-//         status: 302,
-//         headers: {
-//             'Location': process.env["CallbackRedirect"].concat(new URLSearchParams({ authstatus: 'success' }))
-//         },
-//         body: null,
-//         cookies: [
-//             {
-//                 name: "spotify_auth",
-//                 value: randomUid,
-//                 httpOnly: true,
-//                 // secure: true,
-//                 path: '/api'
-//             }
-//         ]
-//     };
+    res = {
+        status: 302,
+        headers: {
+            'Location': process.env["CallbackRedirect"].concat(new URLSearchParams({ authstatus: 'success' }))
+        },
+        body: null,
+        cookies: [
+            {
+                name: "spotify_auth",
+                value: randomUid,
+                httpOnly: true,
+                secure: true,
+                // path: '/api'
+            }
+        ]
+    };
 
-//     context.done(null, res);
+    context.done(null, res);
 // }
 
 // async function getToken(params) {

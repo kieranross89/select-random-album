@@ -25,7 +25,7 @@ module.exports = function (context) {
             {
                 name: "spotify_auth_state",
                 value: state,
-                httpOnly: true,
+                // httpOnly: true,
                 // path: '/api'
             }
         ]

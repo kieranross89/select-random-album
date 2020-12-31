@@ -6,7 +6,7 @@
               "methods": [ "GET" ],
               "route": "/api/callback"
           },
-          "backendUri": "https://thankful-water-007bf8903.azurestaticapps.net/api/Callback",
+          "backendUri": "http://localhost/api/Callback",
           "requestOverrides": {
             "backend.request.querystring.code": "",
             "backend.request.querystring._code": "{request.querystring.code}"

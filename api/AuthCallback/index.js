@@ -8,7 +8,7 @@ module.exports = async function (context, req) {
     var cookies = req.headers.cookie ? parseCookie(req.headers.cookie) : null
     var storedState = cookies.spotify_auth_state ? cookies.spotify_auth_state : null
 
-    if (state === null || state !== storedState) {
+        if (state === null || state !== storedState) {
         context.log("State mismatch")
         res = {
             status: 302,
@@ -51,7 +51,7 @@ module.exports = async function (context, req) {
                 value: randomUid,
                 httpOnly: true,
                 secure: true,
-                // path: '/api'
+                path: '/api'
             }
         ]
     };

@@ -3,7 +3,7 @@ var uuid = require('uuid');
 // var { BlobServiceClient } = require('@azure/storage-blob');
 
 module.exports = async function (context, req) {
-    var code = req.query.code || null
+    var code = req.query._code || null
     var state = req.query.state || null
     var cookies = req.headers.cookie ? parseCookie(req.headers.cookie) : null
     var storedState = cookies.spotify_auth_state ? cookies.spotify_auth_state : null

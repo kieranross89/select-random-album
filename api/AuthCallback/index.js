@@ -49,9 +49,9 @@ module.exports = async function (context, req) {
             {
                 name: "spotify_auth",
                 value: randomUid,
-                httpOnly: true,
-                secure: true,
-                path: '/api'
+                // httpOnly: true,
+                // secure: true,
+                // path: '/api'
             }
         ]
     };

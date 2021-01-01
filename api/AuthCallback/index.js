@@ -8,6 +8,8 @@ module.exports = async function (context, req) {
     var cookies = req.headers.cookie ? parseCookie(req.headers.cookie) : null
     var storedState = cookies.spotify_auth_state ? cookies.spotify_auth_state : null
 
+    context.log(`Cookie: ${storedState} State: ${state}`)
+
         if (state === null || state !== storedState) {
         context.log("State mismatch")
         res = {

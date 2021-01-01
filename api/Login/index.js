@@ -3,6 +3,7 @@ var uuid = require('uuid');
 module.exports = function (context) {
     
     var state = uuid.v4()
+    context.log(`State: ${state}`)
     
     const data = {
         client_id: process.env["SpotifyClientId"],

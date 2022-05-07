@@ -1,3 +1,5 @@
+import { fetchWithRetries } from "./RequestHelpers.js";
+
 const clientId = "50da3f0f9b5441f8a0ef7acd1fb8d83d";
 const redirectUri = "http://127.0.0.1:5500";
 
@@ -63,30 +65,76 @@ const validateState = () => {
 };
 
 const getCode = () => {
-    var urlSearchParams = new URLSearchParams(window.location.search);
-    return urlSearchParams.has("code") ? urlSearchParams.get("code") : null;
-}
-
-const getAccessToken = async () => {
-  const isStateValid = validateState();
-  const codeVerifier = window.localStorage.getItem("code_verifier");
-  const code = getCode();
-
-  if (isStateValid && codeVerifier && code) {
-    const response = await fetch("https://accounts.spotify.com/api/token", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-      },
-      body: new URLSearchParams({
-        client_id: clientId,
-        grant_type: "authorization_code",
-        code: code,
-        redirect_uri: redirectUri,
-        code_verifier: codeVerifier,
-      }),
-    });
-  }
+  var urlSearchParams = new URLSearchParams(window.location.search);
+  return urlSearchParams.has("code") ? urlSearchParams.get("code") : null;
 };
 
-export { redirectSpotifyAuthEndpoint, getAccessToken };
+const processAccessToken = (data) => {
+  const accessToken = data.access_token;
+  const refreshToken = data.refresh_token;
+  const time = new Date();
+  const expires = time.setSeconds(time.getSeconds + data.expires_in);
+
+  localStorage.setItem("access_token", accessToken);
+  localStorage.setItem("refresh_token", refreshToken);
+  localStorage.setItem("expires_at", expires);
+};
+
+const getAccessToken = async () => {
+    const isStateValid = validateState();
+    const codeVerifier = window.localStorage.getItem("code_verifier");
+    const code = getCode();
+      
+    if (isStateValid && codeVerifier && code) {
+      // TODO error handling
+      const response = await fetch("https://accounts.spotify.com/api/token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        },
+        body: new URLSearchParams({
+          client_id: clientId,
+          grant_type: "authorization_code",
+          code: code,
+          redirect_uri: redirectUri,
+          code_verifier: codeVerifier,
+        }),
+      });
+
+      if (response.ok) {
+        const responseBody = await response.json();
+        processAccessToken(responseBody);
+        window.history.replaceState({}, document.title, '/');
+      }
+    }
+    else {
+      console.log("something gone wrong init")
+    }
+};
+
+const loginStatus = () => {
+  if(!localStorage.getItem("access_token")) {
+    return false;
+  }
+  return true;
+}
+
+
+const retryAuthFailure = async () => {
+  const refreshToken = localStorage.getItem("refresh_token");
+  const response = await fetchWithRetries("https://accounts.spotify.com/api/token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        },
+        body: new URLSearchParams({
+          client_id: clientId,
+          grant_type: "refresh_token",
+          refresh_token: refreshToken
+        }),
+      });
+
+    processAccessToken(response);
+};
+
+export { redirectSpotifyAuthEndpoint, getAccessToken, loginStatus, retryAuthFailure };

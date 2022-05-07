@@ -1,6 +1,6 @@
 import { fetchWithRetries } from "./RequestHelpers.js";
 
-const clientId = "50da3f0f9b5441f8a0ef7acd1fb8d83d";
+const clientId = "CLIENTSECRET";
 const redirectUri = "http://127.0.0.1:5500";
 
 const generateRandomString = (length) => {

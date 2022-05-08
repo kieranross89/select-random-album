@@ -14,8 +14,63 @@ const getDynamicHomeContent = (userSignedIn, node) => {
     }
 }
 
+const albumContent = (album) => {
+    const albumDetails = album.items[0].album
+      return `
+        <div class="container-fluid text-center">
+        <h2>Album Details</h2>
+        <ul class="list-inline">
+          <li class="list-inline-item"><strong>Artist(s):</strong> ${albumDetails.artists[0].name}</li>
+          <li class="list-inline-item"><strong>Title:</strong> ${albumDetails.name}</li>
+        </ul>
+        <ul class="list-inline">
+          <li class="list-inline-item"><strong>Label:</strong> ${albumDetails.label}</li>
+          <li class="list-inline-item"><strong>Released:</strong> ${albumDetails.release_date}</li>
+          <li class="list-inline-item"><strong>Type:</strong> ${albumDetails.album_type}</li>
+        </ul>
+        <img src="${albumDetails.images[1].url}" class="pb-3 img-thumbnai"/>
+        <div>
+          <button type="button" class="btn btn-success btn-lg" onclick="getAlbum();" id="getAnotherAlbum">Get Another Album</button>
+        </div>
+        </div>
+      `
+}
+
 const appendContent = (template, node) => {
     node.insertAdjacentHTML('afterend', template)
 }
 
-export { getDynamicHomeContent, appendContent }
+const insertOrUpdateContent = (elementName, content) => {
+
+  // TODO: This should be done before passed in
+  let container = document.createElement('div')
+      container.setAttribute('id', "album")
+      container.innerHTML = content
+  
+  if (checkElementExists(elementName)) {
+    let element = document.getElementById(elementName)
+    element.replaceWith(container)
+  }
+
+  // Pass in name of element to be replaced
+  removeElement('get-album')
+  const main = document.querySelector('main')
+  main.append(container)
+}
+
+const checkElementExists = (name) => {
+  const element = document.getElementById(name)
+  if (!element) {
+    return false
+  }
+  return true
+}
+
+const removeElement = (name) => {
+  let element = document.getElementById(name)
+  if (element) {
+    element.parentNode.removeChild(element)
+  }
+}
+
+export { getDynamicHomeContent, albumContent, appendContent, insertOrUpdateContent }

@@ -44,8 +44,7 @@ const getRandomAlbum = async () => {
     },
   };
 
-  const test = await fetchWithRetries(requestUrl, requestOptions);
-  console.log(test);
+  return await fetchWithRetries(requestUrl, requestOptions);
 };
 
 export { getRandomAlbum, getCountSavedAlbums };

@@ -11,15 +11,13 @@ appendContent(content, document.querySelector('main'));
 const randomAlbum = async () => {
         const album = await getRandomAlbum();
         const content = albumContent(album);
-        insertOrUpdateContent('album', content)
-        console.log("sdf")
+        insertOrUpdateContent('album', 'get-album', content)
+        document.querySelector('#get-next-album-btn').addEventListener('click', randomAlbum);
 };
 
 // Register on click event handler for login button if exists
 document.querySelector('#login-btn')?.addEventListener('click', redirectSpotifyAuthEndpoint, false);
 
 // Register on click event handler for get album button if exists
-document.querySelector('#get-album-btn')?.addEventListener('click', async () => {
-    await randomAlbum();
-})
+document.querySelector('#get-album-btn')?.addEventListener('click', randomAlbum);
 

@@ -30,7 +30,7 @@ const albumContent = (album) => {
         </ul>
         <img src="${albumDetails.images[1].url}" class="pb-3 img-thumbnai"/>
         <div>
-          <button type="button" class="btn btn-success btn-lg" onclick="getAlbum();" id="getAnotherAlbum">Get Another Album</button>
+          <button id="get-next-album-btn" type="button" class="btn btn-success btn-lg">Get Another Album</button>
         </div>
         </div>
       `
@@ -40,20 +40,21 @@ const appendContent = (template, node) => {
     node.insertAdjacentHTML('afterend', template)
 }
 
-const insertOrUpdateContent = (elementName, content) => {
+const insertOrUpdateContent = (elementName, elementToReplace, content) => {
 
   // TODO: This should be done before passed in
   let container = document.createElement('div')
-      container.setAttribute('id', "album")
+      container.setAttribute('id', elementName)
       container.innerHTML = content
   
+  // If element already exists straight replace
   if (checkElementExists(elementName)) {
     let element = document.getElementById(elementName)
     element.replaceWith(container)
   }
 
-  // Pass in name of element to be replaced
-  removeElement('get-album')
+  // Remove and replace element if element does not already exist 
+  removeElement(elementToReplace)
   const main = document.querySelector('main')
   main.append(container)
 }

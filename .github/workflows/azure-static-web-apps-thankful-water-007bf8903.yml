@@ -30,6 +30,18 @@ jobs:
           api_location: "src/api"
           app_location: "src" # App source code path
           ###### End of Repository/Build Configurations ######
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Set Config
+        uses: azure/CLI@v1
+        with:
+          azcliversion: latest
+          inlineScript: |
+            hostname=`az staticwebapp environment list -n select-random-album --query "[?buildId == 'default'].hostname" -o tsv`
+            redirectUrl="https://${hostname}/"
+            spotifyClientId = ${{ secrets.SPOTIFY_CLIENTID }}
+            az staticwebapp appsettings set -n select-random-album --setting-names spotifyClientId=${spotifyClientId} spotifyRedirectUri=${hostname}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'

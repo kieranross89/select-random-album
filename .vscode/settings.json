@@ -3,11 +3,15 @@
     "staticWebApps.apiSubpath": "",
     "staticWebApps.appArtifactSubpath": "",
     "debug.internalConsoleOptions": "neverOpen",
-    "azureFunctions.preDeployTask": "npm prune",
+    "azureFunctions.preDeployTask": "npm prune (functions)",
     "liveServer.settings.proxy": {
         "enable": true,
         "baseUri": "/api",
         "proxyUri": "http://127.0.0.1:7071/api"
     },
     "liveServer.settings.multiRootWorkspaceName": "select-random-album/src",
+    "azureFunctions.deploySubpath": "api",
+    "azureFunctions.postDeployTask": "npm install (functions)",
+    "azureFunctions.projectLanguage": "TypeScript",
+    "azureFunctions.projectRuntime": "~3",
 }

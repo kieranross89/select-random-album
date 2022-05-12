@@ -1,7 +1,9 @@
 import { fetchWithRetries } from "./RequestHelpers.js";
+import config from "./Config.js";
 
-const clientId = "50da3f0f9b5441f8a0ef7acd1fb8d83d";
-const redirectUri = "http://127.0.0.1:5500";
+const {spotifyClientId, spotifyRedirectUri} = await config();
+// const clientId = "50da3f0f9b5441f8a0ef7acd1fb8d83d";
+// const redirectUri = "http://127.0.0.1:5500";
 
 const generateRandomString = (length) => {
   let text = "";
@@ -38,9 +40,9 @@ const redirectSpotifyAuthEndpoint = async () => {
   const codeChallenge = await generateCodeChallenge(codeVerifier);
 
   const data = {
-    client_id: clientId,
+    client_id: spotifyClientId,
     response_type: "code",
-    redirect_uri: redirectUri,
+    redirect_uri: spotifyRedirectUri,
     state: state,
     code_challenge_method: "S256",
     code_challenge: codeChallenge,
@@ -93,10 +95,10 @@ const getAccessToken = async () => {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
         },
         body: new URLSearchParams({
-          client_id: clientId,
+          client_id: spotifyClientId,
           grant_type: "authorization_code",
           code: code,
-          redirect_uri: redirectUri,
+          redirect_uri: spotifyRedirectUri,
           code_verifier: codeVerifier,
         }),
       });
@@ -128,7 +130,7 @@ const retryAuthFailure = async () => {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
         },
         body: new URLSearchParams({
-          client_id: clientId,
+          client_id: spotifyClientId,
           grant_type: "refresh_token",
           refresh_token: refreshToken
         }),

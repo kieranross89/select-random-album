@@ -2,8 +2,6 @@ import { fetchWithRetries } from "./RequestHelpers.js";
 import config from "./Config.js";
 
 const {spotifyClientId, spotifyRedirectUri} = await config();
-// const clientId = "50da3f0f9b5441f8a0ef7acd1fb8d83d";
-// const redirectUri = "http://127.0.0.1:5500";
 
 const generateRandomString = (length) => {
   let text = "";

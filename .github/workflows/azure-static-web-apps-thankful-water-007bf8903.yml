@@ -38,6 +38,7 @@ jobs:
         with:
           azcliversion: latest
           inlineScript: |
+            echo ${static_web_app_url} 
             hostname=`az staticwebapp environment list -n select-random-album --query "[?buildId == 'default'].hostname" -o tsv`
             redirectUrl="https://${hostname}/"
             spotifyClientId="${{ secrets.SPOTIFY_CLIENTID }}"

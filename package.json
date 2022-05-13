@@ -1,0 +1,26 @@
+{
+  "name": "select-random-album",
+  "version": "1.0.0",
+  "description": "This repo is used as a starter for a _very basic_ HTML web application using no front-end frameworks.",
+  "main": "main.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kieranross89/select-random-album.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kieranross89/select-random-album/issues"
+  },
+  "homepage": "https://github.com/kieranross89/select-random-album#readme",
+  "devDependencies": {
+    "eslint": "^8.15.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.0",
+    "eslint-plugin-promise": "^6.0.0"
+  }
+}

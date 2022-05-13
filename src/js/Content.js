@@ -1,22 +1,21 @@
 const getDynamicHomeContent = (userSignedIn, node) => {
-    if(userSignedIn) {
-        return `
+  if (userSignedIn) {
+    return `
         <div class="container-fluid text-center" id="get-album">
             <p>Now that's out the way. Lets get a random album from your Spotify library.</p>
             <button id="get-album-btn" type="button" class="btn btn-success btn-lg">Get Album</button>
-        </div>`
-    }
-    else {
-        return `
+        </div>`;
+  } else {
+    return `
         <div class="container-fluid text-center" id="spotifylogin">
             <button id="login-btn" type="button" class="btn btn-success btn-lg" role="button">Login to Spotify</a>
-      </div>`
-    }
-}
+      </div>`;
+  }
+};
 
 const albumContent = (album) => {
-    const albumDetails = album.items[0].album
-      return `
+  const albumDetails = album.items[0].album;
+  return `
         <div class="container-fluid text-center">
         <h2>Album Details</h2>
         <ul class="list-inline">
@@ -33,45 +32,44 @@ const albumContent = (album) => {
           <button id="get-next-album-btn" type="button" class="btn btn-success btn-lg">Get Another Album</button>
         </div>
         </div>
-      `
-}
+      `;
+};
 
 const appendContent = (template, node) => {
-    node.insertAdjacentHTML('afterend', template)
-}
+  node.insertAdjacentHTML('afterend', template);
+};
 
 const insertOrUpdateContent = (elementName, elementToReplace, content) => {
-
   // TODO: This should be done before passed in
-  let container = document.createElement('div')
-      container.setAttribute('id', elementName)
-      container.innerHTML = content
-  
+  const container = document.createElement('div');
+  container.setAttribute('id', elementName);
+  container.innerHTML = content;
+
   // If element already exists straight replace
   if (checkElementExists(elementName)) {
-    let element = document.getElementById(elementName)
-    element.replaceWith(container)
+    const element = document.getElementById(elementName);
+    element.replaceWith(container);
   }
 
-  // Remove and replace element if element does not already exist 
-  removeElement(elementToReplace)
-  const main = document.querySelector('main')
-  main.append(container)
-}
+  // Remove and replace element if element does not already exist
+  removeElement(elementToReplace);
+  const main = document.querySelector('main');
+  main.append(container);
+};
 
 const checkElementExists = (name) => {
-  const element = document.getElementById(name)
+  const element = document.getElementById(name);
   if (!element) {
-    return false
+    return false;
   }
-  return true
-}
+  return true;
+};
 
 const removeElement = (name) => {
-  let element = document.getElementById(name)
+  const element = document.getElementById(name);
   if (element) {
-    element.parentNode.removeChild(element)
+    element.parentNode.removeChild(element);
   }
-}
+};
 
-export { getDynamicHomeContent, albumContent, appendContent, insertOrUpdateContent }
+export { getDynamicHomeContent, albumContent, appendContent, insertOrUpdateContent };

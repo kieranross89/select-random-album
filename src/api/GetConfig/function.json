@@ -6,13 +6,15 @@
       "direction": "in",
       "name": "req",
       "methods": [
-        "get"
+        "get",
+        "post"
       ]
     },
     {
       "type": "http",
       "direction": "out",
-      "name": "$return"
+      "name": "res"
     }
-  ]
+  ],
+  "scriptFile": "../dist/GetConfig/index.js"
 }

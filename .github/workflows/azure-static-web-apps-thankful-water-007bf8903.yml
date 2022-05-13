@@ -39,10 +39,9 @@ jobs:
           azcliversion: latest
           inlineScript: |
             echo ${static_web_app_url} 
-            hostname=`az staticwebapp environment list -n select-random-album --query "[?buildId == 'default'].hostname" -o tsv`
             redirectUrl="https://${hostname}"
             spotifyClientId="${{ secrets.SPOTIFY_CLIENTID }}"
-            az staticwebapp appsettings set -n select-random-album --setting-names spotifyClientId=${spotifyClientId} spotifyRedirectUri=${redirectUrl}
+            az staticwebapp appsettings set -n select-random-album --setting-names spotifyClientId=${spotifyClientId} spotifyRedirectUri=${static_web_app_url}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'

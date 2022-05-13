@@ -40,7 +40,7 @@ jobs:
           inlineScript: |
             echo ${static_web_app_url} 
             hostname=`az staticwebapp environment list -n select-random-album --query "[?buildId == 'default'].hostname" -o tsv`
-            redirectUrl="https://${hostname}/"
+            redirectUrl="https://${hostname}"
             spotifyClientId="${{ secrets.SPOTIFY_CLIENTID }}"
             az staticwebapp appsettings set -n select-random-album --setting-names spotifyClientId=${spotifyClientId} spotifyRedirectUri=${redirectUrl}
 

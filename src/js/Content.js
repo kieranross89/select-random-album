@@ -1,4 +1,4 @@
-const getDynamicHomeContent = (userSignedIn, node) => {
+const getDynamicHomeContent = (userSignedIn) => {
   if (userSignedIn) {
     return `
         <div class="container-fluid text-center" id="get-album">
@@ -36,13 +36,13 @@ const albumContent = (album) => {
 };
 
 const appendContent = (template, node) => {
-  node.insertAdjacentHTML('afterend', template);
+  node.insertAdjacentHTML("afterend", template);
 };
 
 const insertOrUpdateContent = (elementName, elementToReplace, content) => {
   // TODO: This should be done before passed in
-  const container = document.createElement('div');
-  container.setAttribute('id', elementName);
+  const container = document.createElement("div");
+  container.setAttribute("id", elementName);
   container.innerHTML = content;
 
   // If element already exists straight replace
@@ -53,7 +53,7 @@ const insertOrUpdateContent = (elementName, elementToReplace, content) => {
 
   // Remove and replace element if element does not already exist
   removeElement(elementToReplace);
-  const main = document.querySelector('main');
+  const main = document.querySelector("main");
   main.append(container);
 };
 
@@ -72,4 +72,9 @@ const removeElement = (name) => {
   }
 };
 
-export { getDynamicHomeContent, albumContent, appendContent, insertOrUpdateContent };
+export {
+  getDynamicHomeContent,
+  albumContent,
+  appendContent,
+  insertOrUpdateContent,
+};

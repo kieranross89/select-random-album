@@ -4,7 +4,9 @@
   "description": "This repo is used as a starter for a _very basic_ HTML web application using no front-end frameworks.",
   "main": "main.js",
   "scripts": {
-    "test": "npm test"
+    "test": "npm test",
+    "prettier": "npx prettier src test --check",
+    "prettier:fix": "npm run prettier -- --write"
   },
   "repository": {
     "type": "git",
@@ -18,9 +20,7 @@
   "homepage": "https://github.com/kieranross89/select-random-album#readme",
   "devDependencies": {
     "eslint": "^8.15.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-n": "^15.2.0",
-    "eslint-plugin-promise": "^6.0.0"
+    "eslint-config-prettier": "^8.5.0",
+    "prettier": "2.6.2"
   }
 }

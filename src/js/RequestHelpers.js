@@ -1,4 +1,4 @@
-import { retryAuthFailure } from './SpotifyAuth.js';
+import { retryAuthFailure } from "./SpotifyAuth.js";
 
 const fetchWithRetries = async (url, options = {}, retries = 2) => {
   const response = await fetch(url, options);
@@ -11,7 +11,7 @@ const fetchWithRetries = async (url, options = {}, retries = 2) => {
       await retryAuthFailure();
       // Get new refresh token from storage
       options.headers.Authorization =
-        'Bearer ' + localStorage.getItem('access_token');
+        "Bearer " + localStorage.getItem("access_token");
     }
     return await fetchWithRetries(url, options, retries - 1);
   }

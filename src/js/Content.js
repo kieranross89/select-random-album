@@ -27,7 +27,9 @@ const albumContent = (album) => {
           <li class="list-inline-item"><strong>Released:</strong> ${albumDetails.release_date}</li>
           <li class="list-inline-item"><strong>Type:</strong> ${albumDetails.album_type}</li>
         </ul>
-        <img src="${albumDetails.images[1].url}" class="pb-3 img-thumbnai"/>
+        <a href="${albumDetails.external_urls.spotify}" target="_blank">
+          <img src="${albumDetails.images[1].url}" class="pb-3 img-thumbnai"/>
+        </a>
         <div>
           <button id="get-next-album-btn" type="button" class="btn btn-success btn-lg">Get Another Album</button>
         </div>
